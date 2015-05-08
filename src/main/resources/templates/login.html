@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+        >
+<head>
+    <title>AndroidCampaigns</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/static/css/main.css" rel="stylesheet"/>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <img src="/static/css/sepelogo.png" alt="AndroidCampaigns"/>
+            <a class="navbar-brand"></a>
+        </div>
+        <div class="collapse navbar-collapse">
+
+            <form id="logoutForm" action="/logout" method="post">
+                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a th:href="@{/password}">Ξέχασα τον Κωδικό μου</a></li>
+                    <!--<li><a href="javascript:{}" onclick="document.getElementById('logoutForm').submit();">Έξοδος</a>
+                    </li>-->
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="page-container">
+    <div class="container main-container">
+        <div class="row padded-bottom"/>
+        <div th:if="${param.error}" class="row">
+            <div class="center-block center-content padded-bottom">
+                Λάθος Όνομα Χρήστη ή Κωδικός.
+            </div>
+        </div>
+        <div th:if="${param.logout}" class="row">
+            <div class="center-block center-content padded-bottom">
+                Έχετε αποσυνδεθεί.
+            </div>
+        </div>
+        <tr>
+            <form th:action="@{/login}" method="post">
+                <tr>
+                    <td>
+                        <div class="center-content">
+                            <label> Όνομα Χρήστη:
+                                <input class="form-control" type="text" name="username"/>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="center-content">
+                            <label> Κωδικός Χρήστη:
+                                <input class="form-control" type="password" name="password"/>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <div class="center-content">
+                        <button class="btn btn-default" type="submit">Είσοδος</button>
+                    </div>
+                </tr>
+            </form>
+        </tr>
+    </div>
+</div>
+</body>
+</html>
