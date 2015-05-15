@@ -139,7 +139,7 @@ public abstract class AbstractController {
         return date;
     }
 
-    @RequestMapping(value = {  "/citizenProfile"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/citizenProfile"}, method = RequestMethod.GET)
     @Nonnull
     public final String viewMainCitizenProfilePage(
             @Nonnull final Model model
@@ -217,12 +217,19 @@ public abstract class AbstractController {
     ) {
         return "fileupload";
     }
+
     @RequestMapping(value = {"/createCampaign"}, method = RequestMethod.GET)
     @Nonnull
     public final String createCampaign(
+
             @Nonnull final Model model
-    ) {
+    ) throws Exception {
+        SpringUserDetails springUserDetails = currentAuthenticatedUser();
+        if (springUserDetails == null) {
+            throw new Exception("Error");
+        }
+        final UserDTO user = springUserDetails.getUserDTO();
+        model.addAttribute("user", user);
         return "leafletCreateMap";
     }
-
 }

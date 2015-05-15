@@ -10,10 +10,8 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css"/>
-    <!-- <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script> -->
     <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
     <script type='text/javascript' src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
-    <script src="jquery-2.1.1.min.js"></script>
 
 </head>
 
@@ -43,98 +41,97 @@
     </div>
 </div>
 <div class="page-container">
+
     <div class="container main-container">
+        <form th:object="${user}" action="/register/save" method="post" accept-charset="utf-8">
+        Campaign name:
+        <input type="text" name="campaignName">
+        Enter start date:</input>
+        <input type="date" name="bday" min="2015-05-01">
+        Enter finish date:</input>
+        <input type="date" name="bday" max="2020-01-01">
+        Choose experiments to run:</input>
+        <input type="checkbox" name="experiment1" value="test1">Experiment 1</input>
+        <input type="checkbox" name="experiment2" value="test2">Experiment 2</input>
 
-        <form action="CampaignMenu.html">
-            Campaign name:<br>
-            <input type="text" name="campaignName"> <br>
-            Enter start date:<br>
-            <input type="date" name="bday" min="2015-05-01"><br>
-            Enter finish date:<br>
-            <input type="date" name="bday" max="2020-01-01"><br>
-            Choose experiments to run:<br>
-            <input type="checkbox" name="experiment1" value="test1">Experiment 1
-            <input type="checkbox" name="experiment2" value="test2">Experiment 2
+        <p>Click on the polygon icon to start drawing the campaign area</p>
 
-            <p>Click on the polygon icon to start drawing the campaign area</p>
+        <div id="map" style="height: 500px; width:800px;"></div>
 
-            <div id="map" style="height: 500px; width:800;"></div>
 
-            <script type='text/javascript'>
-                var map = L.map('map', {
-                    center: [38.24622, 21.73518],
-                    minZoom: 2,
-                    zoom: 16
-                });
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var map = L.map('map', {
+                center: [38.24622, 21.73518],
+                minZoom: 2,
+                zoom: 16
+            });
 
-                L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
-                    subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-                }).addTo(map);
-            </script>
+            L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+                subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+            }).addTo(map);
 
-            <script type='text/javascript'>
-                //			var marker = L.marker([38.24622, 21.73518]).addTo(map);
+            //			var marker = L.marker([38.24622, 21.73518]).addTo(map);
 
-                //add scale bottomleft
-                L.control.scale({imperial: false}).addTo(map);
+            //add scale bottomleft
+            L.control.scale({imperial: false}).addTo(map);
 
-                //Initialise the FeatureGroup to store new drawn items
-                var drawnItems = new L.FeatureGroup();
-                map.addLayer(drawnItems);
+            //Initialise the FeatureGroup to store new drawn items
+            var drawnItems = new L.FeatureGroup();
+            map.addLayer(drawnItems);
 
-                //Initialise all the drawing controls
-                var drawControl = new L.Control.Draw({
-                    position: 'topleft',
-                    draw: {
-                        //make polygons draw as blue colored
-                        polygon: {
-                            shapeOptions: {
-                                color: 'blue'
-                            },
-                            //display warning when trying to intersect polygons
-                            allowIntersection: false,
-                            drawError: {
-                                color: 'red',
-                                timeout: 1000
-                            },
-                            //calculate drawn polygon area in acres
-                            showArea: true,
-                            metric: false
+            //Initialise all the drawing controls
+            var drawControl = new L.Control.Draw({
+                position: 'topleft',
+                draw: {
+                    //make polygons draw as blue colored
+                    polygon: {
+                        shapeOptions: {
+                            color: 'blue'
                         },
-                        //disable all draw types except polygons
-                        polyline: false,
-                        rectangle: false,
-                        circle: false,
-                        marker: false
+                        //display warning when trying to intersect polygons
+                        allowIntersection: false,
+                        drawError: {
+                            color: 'red',
+                            timeout: 1000
+                        },
+                        //calculate drawn polygon area in acres
+                        showArea: true,
+                        metric: false
                     },
-                    edit: {
-                        featureGroup: drawnItems,
-                        //disables the edit-remove options if set false
-                        edit: false,
-                        remove: true
-                    }
-                });
-                L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the campaign area';
-                map.addControl(drawControl);
+                    //disable all draw types except polygons
+                    polyline: false,
+                    rectangle: false,
+                    circle: false,
+                    marker: false
+                },
+                edit: {
+                    featureGroup: drawnItems,
+                    //disables the edit-remove options if set false
+                    edit: false,
+                    remove: true
+                }
+            });
+            L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the campaign area';
+            map.addControl(drawControl);
 
-                //actually displays drawn item
-                map.on('draw:created', function (e) {
-                    var type = e.layerType,
-                            layer = e.layer;
-                    //map displays only polygons
-                    if (type == 'polygon') {
-                        layer.bindPopup('This is your campaign area!');
-                        drawnItems.addLayer(layer);
-                    }
-                });
+            //actually displays drawn item
+            map.on('draw:created', function (e) {
+                var type = e.layerType,
+                        layer = e.layer;
+                //map displays only polygons
+                if (type == 'polygon') {
+                    layer.bindPopup('This is your campaign area!');
+                    drawnItems.addLayer(layer);
+                }
+            });
 
-                //map.on('draw:edited', function (e) {};
+            /*]]>*/
+        </script>
+    </form>
 
-            </script>
 
-            <br><input type="submit" value="Create this campaign">
-        </form>
     </div>
 </div>
 </body>
