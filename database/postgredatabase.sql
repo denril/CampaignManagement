@@ -85,7 +85,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE campaign (
-    id long NOT NULL,
+    id integer NOT NULL,
     name character varying(100) DEFAULT 'Some Campaign'::character varying,
     "fromTime" timestamp with time zone NOT NULL,
     "toTime" timestamp with time zone NOT NULL,
