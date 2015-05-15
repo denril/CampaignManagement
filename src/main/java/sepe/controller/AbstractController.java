@@ -217,5 +217,12 @@ public abstract class AbstractController {
     ) {
         return "fileupload";
     }
+    @RequestMapping(value = {"/createCampaign"}, method = RequestMethod.GET)
+    @Nonnull
+    public final String createCampaign(
+            @Nonnull final Model model
+    ) {
+        return "leafletCreateMap";
+    }
 
 }

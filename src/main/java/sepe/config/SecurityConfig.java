@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/anonymous").permitAll()
                 .antMatchers("/static/userapp/store/shared/**").permitAll()
                 .antMatchers("/register/**").permitAll()
-                .antMatchers("/leafletCreateMap").permitAll()
+                .antMatchers("/createCampaign").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
