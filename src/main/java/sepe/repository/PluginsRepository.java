@@ -5,6 +5,7 @@
 package sepe.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import sepe.domain.PluginsEntity;
@@ -12,7 +13,7 @@ import sepe.domain.PluginsEntity;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Repository
+@RepositoryRestResource(collectionResourceRel = "plugins", path = "/plugins")
 public interface PluginsRepository extends CrudRepository<PluginsEntity, Integer> {
 
 
@@ -21,7 +22,7 @@ public interface PluginsRepository extends CrudRepository<PluginsEntity, Integer
     public PluginsEntity findOne(Integer id);
 
     @Override
-    @RestResource(exported = false)
+    @RestResource(exported = true)
     public List<PluginsEntity> findAll();
 
     @Override

@@ -24,7 +24,7 @@ public class SmartphonesEntity {
     }
 
     @Basic
-    @Column(name = "phoneID")
+    @Column(name = "phoneId")
     public int getPhoneId() {
         return phoneId;
     }

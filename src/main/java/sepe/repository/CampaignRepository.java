@@ -5,14 +5,14 @@
 package sepe.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.stereotype.Repository;
 import sepe.domain.CampaignEntity;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-@Repository
+
+@RepositoryRestResource(collectionResourceRel = "campaigns", path = "/campaigns")
 public interface CampaignRepository extends CrudRepository<CampaignEntity, Integer> {
 
 
@@ -21,7 +21,7 @@ public interface CampaignRepository extends CrudRepository<CampaignEntity, Integ
     public CampaignEntity findOne(Integer id);
 
     @Override
-    @RestResource(exported = false)
+    @RestResource(exported = true)
     public List<CampaignEntity> findAll();
 
     @Override
@@ -33,7 +33,6 @@ public interface CampaignRepository extends CrudRepository<CampaignEntity, Integ
     public void delete(Integer id);
 
 
-
     @Override
     @RestResource(exported = false)
     public void deleteAll();
@@ -41,7 +40,6 @@ public interface CampaignRepository extends CrudRepository<CampaignEntity, Integ
     @Override
     @RestResource(exported = false)
     public boolean exists(Integer id);
-
 
 
     @Override

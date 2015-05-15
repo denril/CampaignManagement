@@ -24,7 +24,7 @@ public class ResultsEntity {
     }
 
     @Basic
-    @Column(name = "experimentID")
+    @Column(name = "experimentId")
     public int getExperimentId() {
         return experimentId;
     }
@@ -34,7 +34,7 @@ public class ResultsEntity {
     }
 
     @Basic
-    @Column(name = "deviceID")
+    @Column(name = "deviceId")
     public int getDeviceId() {
         return deviceId;
     }

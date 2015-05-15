@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  * Created by giouri-adm on 15/5/2015.
  */
 @Entity
-@Table(name = "campaign", schema = "androidcampaigns", catalog = "androidcampaigns")
+@Table(name = "campaign", schema = "androidcampaigns", catalog = "")
 public class CampaignEntity {
     private int id;
     private String name;
@@ -17,6 +17,21 @@ public class CampaignEntity {
     private int status;
     private String measurements;
     private String area;
+
+    public CampaignEntity(int id, String name, Timestamp fromTime, Timestamp toTime, int experimentsUsedId, int status, String measurements, String area) {
+        this.id = id;
+        this.name = name;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+        this.experimentsUsedId = experimentsUsedId;
+        this.status = status;
+        this.measurements = measurements;
+        this.area = area;
+    }
+
+    public CampaignEntity(){
+
+    }
 
     @Id
     @Column(name = "id")

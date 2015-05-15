@@ -93,7 +93,7 @@ public class ExperimentsEntity {
     }
 
     @Basic
-    @Column(name = "userID")
+    @Column(name = "userId")
     public Integer getUserId() {
         return userId;
     }

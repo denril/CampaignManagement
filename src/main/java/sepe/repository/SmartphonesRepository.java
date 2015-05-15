@@ -5,6 +5,7 @@
 package sepe.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 import sepe.domain.SmartphonesEntity;
@@ -12,7 +13,7 @@ import sepe.domain.SmartphonesEntity;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Repository
+@RepositoryRestResource(collectionResourceRel = "smartphones", path = "/smartphones")
 public interface SmartphonesRepository extends CrudRepository<SmartphonesEntity, Integer> {
 
 
@@ -21,7 +22,7 @@ public interface SmartphonesRepository extends CrudRepository<SmartphonesEntity,
     public SmartphonesEntity findOne(Integer id);
 
     @Override
-    @RestResource(exported = false)
+    @RestResource(exported = true)
     public List<SmartphonesEntity> findAll();
 
     @Override
