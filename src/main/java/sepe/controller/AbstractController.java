@@ -222,7 +222,7 @@ public abstract class AbstractController {
     @Nonnull
     public final String createCampaign(
 
-            @Nonnull final Model model
+    @Nonnull final Model model
     ) throws Exception {
         SpringUserDetails springUserDetails = currentAuthenticatedUser();
         if (springUserDetails == null) {
@@ -232,4 +232,21 @@ public abstract class AbstractController {
         model.addAttribute("user", user);
         return "leafletCreateMap";
     }
+
+    @RequestMapping(value = {"/viewCampaign"}, method = RequestMethod.GET)
+    @Nonnull
+    public final String viewCampaign(
+
+    @Nonnull final Model model
+    ) throws Exception {
+        SpringUserDetails springUserDetails = currentAuthenticatedUser();
+        if (springUserDetails == null) {
+            throw new Exception("Error");
+        }
+        final UserDTO user = springUserDetails.getUserDTO();
+        model.addAttribute("user", user);
+        return "leafletViewMap";
+    }
+
+
 }
