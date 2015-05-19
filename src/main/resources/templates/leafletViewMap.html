@@ -1,61 +1,99 @@
-<html>
-   <head>    
-      <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />    
-      <!-- <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script> -->
-      <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
-	  <script src="jquery-2.1.1.min.js"></script>
-   </head>
- 
-   <body>
-      <h1>View Campaign (Map based on Leaflet)</h1>     
-      <p>This test map has a marker in Patras <br>u can also zoom in to the marker and check the polygon loaded from a .geojson file</p>      
-      <div id="map" style="height: 750px; width:1400;"></div>
-     
-      <script type='text/javascript' >		
-		//initialize map
-		var map = L.map( 'map', {
-		center: [38.24622, 21.73518],
-		minZoom: 2,
-		zoom: 16 });
-		
-		//initialize main tile layer
-		L.tileLayer( 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-		attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
-		subdomains: ['otile1','otile2','otile3','otile4']
-		}).addTo( map );
-	  </script>
-	  
-	  <script type='text/javascript' >	
-		var marker = L.marker([38.24622, 21.73518]).addTo(map);
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Campaign</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/static/css/main.css" rel="stylesheet"/>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css"/>
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+    <script type='text/javascript' src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
 
-		// load GeoJSON from an external file-needs jquery
-//		$.getJSON("map.geojson",function(data){
-		// add GeoJSON layer to the map once the file is loaded
-//		L.geoJson(data).addTo(map);
-//		});
+</head>
+
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <img src="/static/css/sepelogo.png" alt="AndroidCampaigns"/>
+            <a class="navbar-brand"></a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/citizenProfile">Υπηρεσίες</a></li>
+            </ul>
+            <form th:object="${user}" id="logoutForm" action="/logout" method="post">
+                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/citizenProfile">
+                        <div th:text="${user.username}"/>
+                    </a></li>
+                    <li><a href="javascript:{}" onclick="document.getElementById('logoutForm').submit();">Έξοδος</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="page-container">
+
+    <div class="container main-container">
+        <form th:object="${user}" action="/register/save" method="post" accept-charset="utf-8">
+            <h2>View Campaign (Map based on Leaflet) </h2>
+            <p>This test campaign has a marker in Patras and is loaded from a .geojson file </p>
+            <div id="map" style="height: 650px; width: 1100px;"></div>
 
 
-		//manually add to map the contents of a .geojson file
-		var geojsonFeature={"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.736230254173275,38.246619177029956],[21.73572063446045,38.246218944323296],[21.735844016075134,38.24595773863157],[21.73544704914093,38.24570074501884],[21.73519492149353,38.24578921833236],[21.734594106674194,38.245372128911654],[21.73272728919983,38.24693514866277],[21.734277606010437,38.24818216996604],[21.736230254173275,38.246619177029956]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73569917678833,38.24701098165026],[21.73521637916565,38.246665519622056],[21.735742092132565,38.24626107418569],[21.73622488975525,38.24663181592163],[21.73569917678833,38.24701098165026]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73520565032959,38.246665519622056],[21.734819412231445,38.246741352890865],[21.73446536064148,38.24650542690592],[21.734626293182373,38.24632848191469],[21.73458337783813,38.24616838845623],[21.735162734985348,38.24576394025377],[21.73546314239502,38.24570495803622],[21.735838651657104,38.24595773863157],[21.73572063446045,38.24626107418569],[21.73520565032959,38.246665519622056]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.734594106674194,38.24615996247497],[21.734046936035156,38.24583134844378],[21.734604835510254,38.24536791587501],[21.735130548477173,38.24577236628093],[21.734594106674194,38.24615996247497]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73421859741211,38.24697727811004],[21.734529733657837,38.24671607514338],[21.734304428100586,38.24651385284713],[21.73447608947754,38.24624422224365],[21.73396110534668,38.2459324606116],[21.73341393470764,38.24639588958118],[21.73421859741211,38.24694357455419],[21.73421859741211,38.24697727811004]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73433661460876,38.247078388683846],[21.7349910736084,38.24760079107457],[21.735602617263794,38.247120518048085],[21.735119819641113,38.24678348245044],[21.734840869903564,38.24687616739557],[21.73458337783813,38.24677505654047],[21.73433661460876,38.247078388683846]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.732759475708008,38.24693514866277],[21.733542680740356,38.24755866198869],[21.734143495559692,38.24706153693131],[21.733317375183105,38.246480149076405],[21.732759475708008,38.24693514866277]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.733628511428833,38.24759236525936],[21.734282970428467,38.24814846696888],[21.734894514083862,38.24767662336763],[21.73419713973999,38.24713736978695],[21.733628511428833,38.24759236525936]]]}}]}
-		L.geoJson(geojsonFeature).addTo(map);
-		
-		//manually create a polygon
-//		var polygon = L.polygon([
-//			[38.24657, 21.73614],
-//			[38.24623, 21.73571],
-//			[38.24594, 21.73582],
-//			[38.24572, 21.73546],
-//			[38.24579, 21.73517],
-//			[38.24536, 21.7346],
-//			[38.24694, 21.73276],
-//			[38.24817, 21.73432],
-//			[38.24657, 21.73614]
-//			]).addTo(map);
-	  </script>
-	  
-	  <form action="CampaignMenu.html">
-		<br><input type="submit" value="Delete this campaign">
-	  </form>
-	  
-   </body>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var map = L.map( 'map', {
+                    center: [38.24622, 21.73518],
+                    minZoom: 2,
+                    zoom: 16 });
+
+                //initialize main tile layer
+                L.tileLayer( 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+                    subdomains: ['otile1','otile2','otile3','otile4']
+                }).addTo( map );
+
+                var marker = L.marker([38.24622, 21.73518]).addTo(map);
+
+                // load GeoJSON from an external file-needs jquery
+                //		$.getJSON("map.geojson",function(data){
+                // add GeoJSON layer to the map once the file is loaded
+                //		L.geoJson(data).addTo(map);
+                //		});
+
+
+                //manually add to map the contents of a .geojson file
+                var geojsonFeature={"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.736230254173275,38.246619177029956],[21.73572063446045,38.246218944323296],[21.735844016075134,38.24595773863157],[21.73544704914093,38.24570074501884],[21.73519492149353,38.24578921833236],[21.734594106674194,38.245372128911654],[21.73272728919983,38.24693514866277],[21.734277606010437,38.24818216996604],[21.736230254173275,38.246619177029956]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73569917678833,38.24701098165026],[21.73521637916565,38.246665519622056],[21.735742092132565,38.24626107418569],[21.73622488975525,38.24663181592163],[21.73569917678833,38.24701098165026]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73520565032959,38.246665519622056],[21.734819412231445,38.246741352890865],[21.73446536064148,38.24650542690592],[21.734626293182373,38.24632848191469],[21.73458337783813,38.24616838845623],[21.735162734985348,38.24576394025377],[21.73546314239502,38.24570495803622],[21.735838651657104,38.24595773863157],[21.73572063446045,38.24626107418569],[21.73520565032959,38.246665519622056]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.734594106674194,38.24615996247497],[21.734046936035156,38.24583134844378],[21.734604835510254,38.24536791587501],[21.735130548477173,38.24577236628093],[21.734594106674194,38.24615996247497]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73421859741211,38.24697727811004],[21.734529733657837,38.24671607514338],[21.734304428100586,38.24651385284713],[21.73447608947754,38.24624422224365],[21.73396110534668,38.2459324606116],[21.73341393470764,38.24639588958118],[21.73421859741211,38.24694357455419],[21.73421859741211,38.24697727811004]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.73433661460876,38.247078388683846],[21.7349910736084,38.24760079107457],[21.735602617263794,38.247120518048085],[21.735119819641113,38.24678348245044],[21.734840869903564,38.24687616739557],[21.73458337783813,38.24677505654047],[21.73433661460876,38.247078388683846]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.732759475708008,38.24693514866277],[21.733542680740356,38.24755866198869],[21.734143495559692,38.24706153693131],[21.733317375183105,38.246480149076405],[21.732759475708008,38.24693514866277]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.733628511428833,38.24759236525936],[21.734282970428467,38.24814846696888],[21.734894514083862,38.24767662336763],[21.73419713973999,38.24713736978695],[21.733628511428833,38.24759236525936]]]}}]}
+                L.geoJson(geojsonFeature).addTo(map);
+
+                //manually create a polygon
+                //		var polygon = L.polygon([
+                //			[38.24657, 21.73614],
+                //			[38.24623, 21.73571],
+                //			[38.24594, 21.73582],
+                //			[38.24572, 21.73546],
+                //			[38.24579, 21.73517],
+                //			[38.24536, 21.7346],
+                //			[38.24694, 21.73276],
+                //			[38.24817, 21.73432],
+                //			[38.24657, 21.73614]
+                //			]).addTo(map);
+
+                /*]]>*/
+            </script><br> </br>
+            <input type="submit" value="Delete this campaign"> </input>
+        </form>
+
+
+    </div>
+</div>
+</body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Προφίλ χρήστη</title>
+    <title>Create Campaign</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
@@ -44,14 +44,15 @@
 
     <div class="container main-container">
         <form th:object="${user}" action="/register/save" method="post" accept-charset="utf-8">
+        <h2>Create Campaign (Map based on Leaflet) </h2>
         Campaign name:
-        <input type="text" name="campaignName">
-        Enter start date:</input>
-        <input type="date" name="bday" min="2015-05-01">
-        Enter finish date:</input>
-        <input type="date" name="bday" max="2020-01-01">
-        Choose experiments to run:</input>
-        <input type="checkbox" name="experiment1" value="test1">Experiment 1</input>
+        <input type="text" name="campaignName"> </input><br></br>
+        Enter start date :
+        <input type="date" name="start" min="2015-05-01"> </input><br></br>
+        Enter finish date:
+        <input type="date" name="finish" max="2020-01-01"> </input><br></br>
+        Choose experiments to run:<br></br>
+        <input type="checkbox" name="experiment1" value="test1">Experiment 1</input><br></br>
         <input type="checkbox" name="experiment2" value="test2">Experiment 2</input>
 
         <p>Click on the polygon icon to start drawing the campaign area</p>
@@ -128,7 +129,8 @@
             });
 
             /*]]>*/
-        </script>
+        </script><br></br>
+            <input type="submit" value="Create this campaign"> </input>
     </form>
 
 
