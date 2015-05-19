@@ -222,7 +222,7 @@ public abstract class AbstractController {
     @Nonnull
     public final String createCampaign(
 
-    @Nonnull final Model model
+             @Nonnull final Model model
     ) throws Exception {
         SpringUserDetails springUserDetails = currentAuthenticatedUser();
         if (springUserDetails == null) {
@@ -237,7 +237,7 @@ public abstract class AbstractController {
     @Nonnull
     public final String viewCampaign(
 
-    @Nonnull final Model model
+            @Nonnull final Model model
     ) throws Exception {
         SpringUserDetails springUserDetails = currentAuthenticatedUser();
         if (springUserDetails == null) {
