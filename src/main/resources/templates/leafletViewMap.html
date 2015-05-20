@@ -42,7 +42,7 @@
 <div class="page-container">
 
     <div class="container main-container">
-        <form th:object="${user}" action="/register/save" method="post" accept-charset="utf-8">
+        <form th:object="${user}" id="viewCampaignForm" name="viewCampaignForm" action="/" method="post" accept-charset="utf-8">
             <h2>View Campaign (Map based on Leaflet) </h2>
             <p>This test campaign has a marker in Patras and is loaded from a .geojson file </p>
             <div id="map" style="height: 650px; width: 1100px;"></div>
@@ -89,7 +89,7 @@
 
                 /*]]>*/
             </script><br> </br>
-            <input type="submit" value="Delete this campaign"> </input>
+            <input type="submit" id="deleteCampaignBtn" name="deleteCampaignBtn" value="Delete this campaign"> </input>
         </form>
 
 

@@ -43,17 +43,17 @@
 <div class="page-container">
 
     <div class="container main-container">
-        <form th:object="${user}" action="/register/save" method="post" accept-charset="utf-8">
+        <form th:object="${user}" id="createCampaignForm" name="createCampaignForm" action="/" method="post" accept-charset="utf-8">
         <h2>Create Campaign (Map based on Leaflet) </h2>
         Campaign name:
-        <input type="text" name="campaignName"> </input><br></br>
+        <input type="text" id="campaignName" name="campaignName"> </input><br/>
         Enter start date :
-        <input type="date" name="start" min="2015-05-01"> </input><br></br>
+        <input type="date" id="start" name="start" min="2015-05-01"> </input><br/>
         Enter finish date:
-        <input type="date" name="finish" max="2020-01-01"> </input><br></br>
-        Choose experiments to run:<br></br>
-        <input type="checkbox" name="experiment1" value="test1">Experiment 1</input><br></br>
-        <input type="checkbox" name="experiment2" value="test2">Experiment 2</input>
+        <input type="date" id="finish" name="finish" max="2020-01-01"> </input><br/>
+        Choose experiments to run:<br/>
+        <input type="checkbox" id="experiment1" name="experiment1" value="test1">Experiment 1</input><br/>
+        <input type="checkbox" id="experiment2" name="experiment2" value="test2">Experiment 2</input>
 
         <p>Click on the polygon icon to start drawing the campaign area</p>
 
@@ -129,8 +129,8 @@
             });
 
             /*]]>*/
-        </script><br></br>
-            <input type="submit" value="Create this campaign"> </input>
+        </script><br/>
+            <input type="submit" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"> </input>
     </form>
 
 
