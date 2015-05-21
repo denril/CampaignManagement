@@ -8,6 +8,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import sepe.config.Constants;
 import sepe.config.SpringUserDetails;
 import sepe.dto.UserDTO;
@@ -15,6 +16,7 @@ import sepe.repository.UserRepository;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyEditor;
@@ -246,6 +248,14 @@ public abstract class AbstractController {
         final UserDTO user = springUserDetails.getUserDTO();
         model.addAttribute("user", user);
         return "leafletViewMap";
+    }
+
+    @RequestMapping(value = {"/createCampaignSuccess"}, method = {RequestMethod.POST,RequestMethod.GET})
+        public @ResponseBody String createCampaignSuccess(HttpServletRequest request) {
+        String message=request.getParameter("message");
+        System.out.println("***Campaign Creation Successful***");
+        return "Campaign Creation Successful"+" "+message;
+        //return "leafletViewMap";
     }
 
 
