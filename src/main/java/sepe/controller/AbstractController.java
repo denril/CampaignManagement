@@ -5,13 +5,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import sepe.config.Constants;
 import sepe.config.SpringUserDetails;
+import sepe.domain.CampaignEntity;
+import sepe.dto.CampaignDTO;
+import sepe.dto.JsonResponse;
 import sepe.dto.UserDTO;
+import sepe.repository.CampaignRepository;
 import sepe.repository.UserRepository;
 
 import javax.annotation.Nonnull;
@@ -31,6 +32,8 @@ public abstract class AbstractController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    CampaignRepository campaignrepository;
 
     private class StringEditor implements PropertyEditor {
 
@@ -224,7 +227,7 @@ public abstract class AbstractController {
     @Nonnull
     public final String createCampaign(
 
-             @Nonnull final Model model
+            @Nonnull final Model model
     ) throws Exception {
         SpringUserDetails springUserDetails = currentAuthenticatedUser();
         if (springUserDetails == null) {
@@ -250,12 +253,13 @@ public abstract class AbstractController {
         return "leafletViewMap";
     }
 
-    @RequestMapping(value = {"/createCampaignSuccess"}, method = {RequestMethod.POST,RequestMethod.GET})
-        public @ResponseBody String createCampaignSuccess(HttpServletRequest request) {
-        String message=request.getParameter("message");
-        System.out.println("***Campaign Creation Successful***");
-        return "Campaign Creation Successful"+" "+message;
-        //return "leafletViewMap";
+    @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JsonResponse createCampaignSuccess(@RequestBody CampaignDTO e) {
+        System.out.println(e.getName());
+        //campaignrepository.save(e);
+        return new JsonResponse("OK", "");
     }
 
 
