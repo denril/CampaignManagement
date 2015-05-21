@@ -13,8 +13,30 @@
     <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
     <script type='text/javascript' src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
 
-</head>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
 
+        function createCampaignFunc() {
+
+            var methodURL="/createCampaignSuccess";
+            $.ajax({
+                type : "POST",
+                url : methodURL,
+                data : $("#createCampaignForm").serialize(),
+                success : function(data) {
+                    $("#jsonMessage").text(data);
+                },
+                error : function(e) {
+
+                }
+            });
+
+        }
+
+        /*]]>*/
+    </script>
+
+</head>
 
 <body>
 <div class="navbar navbar-default navbar-fixed-top">
@@ -43,7 +65,7 @@
 <div class="page-container">
 
     <div class="container main-container">
-        <form th:object="${user}" id="createCampaignForm" name="createCampaignForm" action="/" method="post" accept-charset="utf-8">
+        <form th:object="${user}" id="createCampaignForm" name="createCampaignForm" action="/createCampaignSuccess" method="post" accept-charset="utf-8">
         <h2>Create Campaign (Map based on Leaflet) </h2>
         Campaign name:
         <input type="text" id="campaignName" name="campaignName"> </input><br/>
@@ -58,7 +80,6 @@
         <p>Click on the polygon icon to start drawing the campaign area</p>
 
         <div id="map" style="height: 500px; width:800px;"></div>
-
 
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -119,21 +140,29 @@
 
             //actually displays drawn item
             map.on('draw:created', function (e) {
-                var type = e.layerType,
-                        layer = e.layer;
+                var type = e.layerType;
+                var layer = e.layer;
+                var latLngs;
                 //map displays only polygons
-                if (type == 'polygon') {
+                //if (type == 'polygon') {  //not needed since other draw types are disabled
                     layer.bindPopup('This is your campaign area!');
                     drawnItems.addLayer(layer);
-                }
+                    //convert drawn shapes to geojson then stringify to save to database
+                    var shape = layer.toGeoJSON();
+                    var shape_for_db = JSON.stringify(shape);
+
+                    latLngs = layer.getLatLngs(); // Returns an array of the points in the path.
+
+               // }
             });
 
             /*]]>*/
         </script><br/>
-            <input type="submit" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"> </input>
+          <!--  <input type="submit" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"> </input> -->
+            <input type="button" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign" onclick="createCampaignFunc()"> </input>
     </form>
-
-
+    <br/>
+    <span id="jsonMessage"></span>
     </div>
 </div>
 </body>
