@@ -18,15 +18,30 @@
 
         function createCampaignFunc() {
 
-            var methodURL="/createCampaignSuccess";
+            var methodURL = "/createCampaignSuccess";
+
+
+            var formdata = "{" +
+                    "\"name\" : \"" + $("#campaignName").val() + "\"," +
+                    "\"fromTime\" : \"" + $("#start").val() + "\"," +
+                    "\"toTime\" : \"" + $("#finish").val() + "\"," +
+                    "\"experimentsUsedId\" : \"" + $("#experiment1").val() + "\"," +
+                    "\"status\" : 0 ,"+
+                    "\"measurements\" :  ," +
+                    "\"area\" : \"" + $("#shape_for_db").val() + "\"}" ;
+
+
+
             $.ajax({
-                type : "POST",
-                url : methodURL,
-                data : $("#createCampaignForm").serialize(),
-                success : function(data) {
+                type: "POST",
+                url: methodURL,
+                data: formdata,
+                contentType: 'application/json',
+                success: function (data) {
                     $("#jsonMessage").text(data);
                 },
-                error : function(e) {
+
+                error: function (e) {
 
                 }
             });
@@ -65,86 +80,87 @@
 <div class="page-container">
 
     <div class="container main-container">
-        <form th:object="${user}" id="createCampaignForm" name="createCampaignForm" action="/createCampaignSuccess" method="post" accept-charset="utf-8">
-        <h2>Create Campaign (Map based on Leaflet) </h2>
-        Campaign name:
-        <input type="text" id="campaignName" name="campaignName"> </input><br/>
-        Enter start date :
-        <input type="date" id="start" name="start" min="2015-05-01"> </input><br/>
-        Enter finish date:
-        <input type="date" id="finish" name="finish" max="2020-01-01"> </input><br/>
-        Choose experiments to run:<br/>
-        <input type="checkbox" id="experiment1" name="experiment1" value="test1">Experiment 1</input><br/>
-        <input type="checkbox" id="experiment2" name="experiment2" value="test2">Experiment 2</input>
+        <form th:object="${user}" id="createCampaignForm" name="createCampaignForm" action="/createCampaignSuccess"
+              method="post" accept-charset="utf-8">
+            <h2>Create Campaign (Map based on Leaflet) </h2>
+            Campaign name:
+            <input type="text" id="campaignName" name="campaignName"> </input><br/>
+            Enter start date :
+            <input type="date" id="start" name="start" min="2015-05-01"> </input><br/>
+            Enter finish date:
+            <input type="date" id="finish" name="finish" max="2020-01-01"> </input><br/>
+            Choose experiments to run:<br/>
+            <input type="checkbox" id="experiment1" name="experiment1" value="test1">Experiment 1</input><br/>
+            <input type="checkbox" id="experiment2" name="experiment2" value="test2">Experiment 2</input>
 
-        <p>Click on the polygon icon to start drawing the campaign area</p>
+            <p>Click on the polygon icon to start drawing the campaign area</p>
 
-        <div id="map" style="height: 500px; width:800px;"></div>
+            <div id="map" style="height: 500px; width:800px;"></div>
 
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var map = L.map('map', {
-                center: [38.24622, 21.73518],
-                minZoom: 2,
-                zoom: 16
-            });
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var map = L.map('map', {
+                    center: [38.24622, 21.73518],
+                    minZoom: 2,
+                    zoom: 16
+                });
 
-            L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
-                subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-            }).addTo(map);
+                L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+                    subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+                }).addTo(map);
 
-            //			var marker = L.marker([38.24622, 21.73518]).addTo(map);
+                //			var marker = L.marker([38.24622, 21.73518]).addTo(map);
 
-            //add scale bottomleft
-            L.control.scale({imperial: false}).addTo(map);
+                //add scale bottomleft
+                L.control.scale({imperial: false}).addTo(map);
 
-            //Initialise the FeatureGroup to store new drawn items
-            var drawnItems = new L.FeatureGroup();
-            map.addLayer(drawnItems);
+                //Initialise the FeatureGroup to store new drawn items
+                var drawnItems = new L.FeatureGroup();
+                map.addLayer(drawnItems);
 
-            //Initialise all the drawing controls
-            var drawControl = new L.Control.Draw({
-                position: 'topleft',
-                draw: {
-                    //make polygons draw as blue colored
-                    polygon: {
-                        shapeOptions: {
-                            color: 'blue'
+                //Initialise all the drawing controls
+                var drawControl = new L.Control.Draw({
+                    position: 'topleft',
+                    draw: {
+                        //make polygons draw as blue colored
+                        polygon: {
+                            shapeOptions: {
+                                color: 'blue'
+                            },
+                            //display warning when trying to intersect polygons
+                            allowIntersection: false,
+                            drawError: {
+                                color: 'red',
+                                timeout: 1000
+                            },
+                            //calculate drawn polygon area in acres
+                            showArea: true,
+                            metric: false
                         },
-                        //display warning when trying to intersect polygons
-                        allowIntersection: false,
-                        drawError: {
-                            color: 'red',
-                            timeout: 1000
-                        },
-                        //calculate drawn polygon area in acres
-                        showArea: true,
-                        metric: false
+                        //disable all draw types except polygons
+                        polyline: false,
+                        rectangle: false,
+                        circle: false,
+                        marker: false
                     },
-                    //disable all draw types except polygons
-                    polyline: false,
-                    rectangle: false,
-                    circle: false,
-                    marker: false
-                },
-                edit: {
-                    featureGroup: drawnItems,
-                    //disables the edit-remove options if set false
-                    edit: false,
-                    remove: true
-                }
-            });
-            L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the campaign area';
-            map.addControl(drawControl);
+                    edit: {
+                        featureGroup: drawnItems,
+                        //disables the edit-remove options if set false
+                        edit: false,
+                        remove: true
+                    }
+                });
+                L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the campaign area';
+                map.addControl(drawControl);
 
-            //actually displays drawn item
-            map.on('draw:created', function (e) {
-                var type = e.layerType;
-                var layer = e.layer;
-                var latLngs;
-                //map displays only polygons
-                //if (type == 'polygon') {  //not needed since other draw types are disabled
+                //actually displays drawn item
+                map.on('draw:created', function (e) {
+                    var type = e.layerType;
+                    var layer = e.layer;
+                    var latLngs;
+                    //map displays only polygons
+                    //if (type == 'polygon') {  //not needed since other draw types are disabled
                     layer.bindPopup('This is your campaign area!');
                     drawnItems.addLayer(layer);
                     //convert drawn shapes to geojson then stringify to save to database
@@ -153,16 +169,18 @@
 
                     latLngs = layer.getLatLngs(); // Returns an array of the points in the path.
 
-               // }
-            });
+                    // }
+                });
 
-            /*]]>*/
-        </script><br/>
-          <!--  <input type="submit" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"> </input> -->
-            <input type="button" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign" onclick="createCampaignFunc()"> </input>
-    </form>
-    <br/>
-    <span id="jsonMessage"></span>
+                /*]]>*/
+            </script>
+            <br/>
+            <!--  <input type="submit" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"> </input> -->
+            <input type="button" id="createCampaignBtn" name="createCampaignBtn" value="Create this campaign"
+                   onclick="createCampaignFunc()"> </input>
+        </form>
+        <br/>
+        <span id="jsonMessage"></span>
     </div>
 </div>
 </body>
