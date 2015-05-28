@@ -30,24 +30,25 @@
                     "\"measurements\" :  ," +
                     "\"area\" : \"" + $("#shape_for_db").val() + "\"}" ; */
 
-            var formdata = "{" +
+         /*   var formdata = "{" +
                     "\"name\" : \"" + $("#campaignName").val() + "\"," +
                     "\"fromTime\" : \"" + $("#start").val() + "\"," +
                     "\"toTime\" : \"" + $("#finish").val() + "\"," +
                     "\"experimentsUsedId\" : 1," +
                     "\"status\" : 0 ,"+
                     "\"measurements\" :  \"" + "" + "\"," +
-                    "\"area\" : \"" + "" + "\"}" ;
+                    "\"area\" : \"" + "" + "\"}" ;  */
 
           //  var checkdata=JSON.stringify(formdata);
           //  var somedata="{\"name\":\"somecampaign\",\"fromTime\":\"starttime\",\"toTime\":\"finishtime\",\"experimentsUsedId\":1,\"status\":0,\"measurements\":\"noneyet\",\"area\":\"tobedefined\"}";
           //  var strsomedata=JSON.stringify(somedata);
-            var moredata={"name":"somecampaign","fromTime":"starttime","toTime":"finishtime","experimentsUsedId":1,"status":0,"measurements":"noneyet","area":"tobedefined"}
+            var moredata={"name":"somecampaign","fromTime":"starttime","toTime":"finishtime","experimentsUsedId":1,"status":0,"measurements":"noneyet","area":"tobedefined"};
+            var moreformdata={"name":$("#campaignName").val(),"fromTime":$("#start").val(),"toTime":$("#finish").val(),"experimentsUsedId":1,"status":0,"measurements":"","area":""}
 
             $.ajax({
                 url: methodURL,
                 type: "POST",
-                data: JSON.stringify(moredata),
+                data: JSON.stringify(moreformdata),
                // data: {name:"somecampaign",fromTime:"starttime",toTime:"finishtime",experimentsUsedId:1,status:0,measurements:"noneyet",area:"tobedefined"},
                // data: strsomedata,
                // data: formdata,
@@ -58,7 +59,7 @@
                 processData:false, //To avoid making query String instead of JSON
                //  mimeType: 'application/json',
                 success: function(data) {
-                    alert("success! Your new campaign is called: "+" "+data.name);
+                    alert("Success!\nYour new campaign is called: "+data.name+"\nStarts: "+data.fromTime+"\nEnds: "+data.toTime+"\nUses experiment with id: "+data.experimentsUsedId+"\nHas status: "+data.status+" (0 means it hasnt started)"+"\nDoes not have measurements yet "+data.measurements+"\nWith area: "+data.area);
                 },
                 error:function(data,status,er) {
                     alert("error: "+data+" status: "+status+" er:"+er);
