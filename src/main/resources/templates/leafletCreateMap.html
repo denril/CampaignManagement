@@ -4,10 +4,10 @@
     <title>Create Campaign</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <link href="/static/css/main.css" rel="stylesheet"/>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css"/>
     <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
@@ -21,28 +21,47 @@
             var methodURL = "/createCampaignSuccess";
 
 
-            var formdata = "{" +
+          /*  var formdata = "{" +
                     "\"name\" : \"" + $("#campaignName").val() + "\"," +
                     "\"fromTime\" : \"" + $("#start").val() + "\"," +
                     "\"toTime\" : \"" + $("#finish").val() + "\"," +
                     "\"experimentsUsedId\" : \"" + $("#experiment1").val() + "\"," +
                     "\"status\" : 0 ,"+
                     "\"measurements\" :  ," +
-                    "\"area\" : \"" + $("#shape_for_db").val() + "\"}" ;
+                    "\"area\" : \"" + $("#shape_for_db").val() + "\"}" ; */
 
+            var formdata = "{" +
+                    "\"name\" : \"" + $("#campaignName").val() + "\"," +
+                    "\"fromTime\" : \"" + $("#start").val() + "\"," +
+                    "\"toTime\" : \"" + $("#finish").val() + "\"," +
+                    "\"experimentsUsedId\" : 1," +
+                    "\"status\" : 0 ,"+
+                    "\"measurements\" :  \"" + "" + "\"," +
+                    "\"area\" : \"" + "" + "\"}" ;
 
+          //  var checkdata=JSON.stringify(formdata);
+          //  var somedata="{\"name\":\"somecampaign\",\"fromTime\":\"starttime\",\"toTime\":\"finishtime\",\"experimentsUsedId\":1,\"status\":0,\"measurements\":\"noneyet\",\"area\":\"tobedefined\"}";
+          //  var strsomedata=JSON.stringify(somedata);
+            var moredata={"name":"somecampaign","fromTime":"starttime","toTime":"finishtime","experimentsUsedId":1,"status":0,"measurements":"noneyet","area":"tobedefined"}
 
             $.ajax({
-                type: "POST",
                 url: methodURL,
-                data: formdata,
-                contentType: 'application/json',
-                success: function (data) {
-                    $("#jsonMessage").text(data);
+                type: "POST",
+                data: JSON.stringify(moredata),
+               // data: {name:"somecampaign",fromTime:"starttime",toTime:"finishtime",experimentsUsedId:1,status:0,measurements:"noneyet",area:"tobedefined"},
+               // data: strsomedata,
+               // data: formdata,
+               // data: "{\"name\":\"some campaign\",\"fromTime\":\"starttime\",\"toTime\":\"finishtime\",\"experimentsUsedId\":1,\"status\":0,\"measurements\":\"noneyet\",\"area\":\"tobedefined\"}",
+               // data: JSON.stringify(formdata),
+                // dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                processData:false, //To avoid making query String instead of JSON
+               //  mimeType: 'application/json',
+                success: function(data) {
+                    alert("success! Your new campaign is called: "+" "+data.name);
                 },
-
-                error: function (e) {
-
+                error:function(data,status,er) {
+                    alert("error: "+data+" status: "+status+" er:"+er);
                 }
             });
 
@@ -89,9 +108,9 @@
             <input type="date" id="start" name="start" min="2015-05-01"> </input><br/>
             Enter finish date:
             <input type="date" id="finish" name="finish" max="2020-01-01"> </input><br/>
-            Choose experiments to run:<br/>
-            <input type="checkbox" id="experiment1" name="experiment1" value="test1">Experiment 1</input><br/>
-            <input type="checkbox" id="experiment2" name="experiment2" value="test2">Experiment 2</input>
+            Choose experiment to run:<br/>
+            <input type="checkbox" id="experiment1" name="experiment1" value="1">Experiment 1</input><br/>
+            <!-- <input type="checkbox" id="experiment2" name="experiment2" value="2">Experiment 2</input> -->
 
             <p>Click on the polygon icon to start drawing the campaign area</p>
 
