@@ -33,7 +33,7 @@ public abstract class AbstractController {
     private UserRepository userRepository;
 
     @Autowired
-    CampaignRepository campaignrepository;
+    private CampaignRepository campaignRepository;
 
     private class StringEditor implements PropertyEditor {
 
@@ -253,13 +253,29 @@ public abstract class AbstractController {
         return "leafletViewMap";
     }
 
-    @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
+ /*   @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JsonResponse createCampaignSuccess(@RequestBody CampaignDTO e) {
         System.out.println(e.getName());
         //campaignrepository.save(e);
         return new JsonResponse("OK", "");
+    }
+*/
+ /*   @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
+        public @ResponseBody String createCampaignSuccess(HttpServletRequest request) {
+        String message = request.getParameter("message");
+        System.out.println("***Campaign Creation Successful***");
+        return "Campaign Creation Successful" + " " + message;
+    }
+
+*/
+    @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
+    public @ResponseBody CampaignDTO post( @RequestBody final CampaignDTO campaign) {
+
+        System.out.println("Campaign Created:"+campaign.getName());
+        return campaign;
+
     }
 
 
