@@ -27,6 +27,9 @@ public class CampaignDTO {
         this.area = area;
     }
 
+    public CampaignDTO() {
+    }
+
     public String getName() {
         return name;
     }
