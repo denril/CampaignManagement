@@ -11,14 +11,14 @@ import java.sql.Timestamp;
 public class CampaignEntity {
     private int id;
     private String name;
-    private Timestamp fromTime;
-    private Timestamp toTime;
+    private String fromTime;
+    private String toTime;
     private int experimentsUsedId;
     private int status;
     private String measurements;
     private String area;
 
-    public CampaignEntity(int id, String name, Timestamp fromTime, Timestamp toTime, int experimentsUsedId, int status, String measurements, String area) {
+    public CampaignEntity(int id, String name, String fromTime, String toTime, int experimentsUsedId, int status, String measurements, String area) {
         this.id = id;
         this.name = name;
         this.fromTime = fromTime;
@@ -55,21 +55,21 @@ public class CampaignEntity {
 
     @Basic
     @Column(name = "fromTime")
-    public Timestamp getFromTime() {
+    public String getFromTime() {
         return fromTime;
     }
 
-    public void setFromTime(Timestamp fromTime) {
+    public void setFromTime(String fromTime) {
         this.fromTime = fromTime;
     }
 
     @Basic
     @Column(name = "toTime")
-    public Timestamp getToTime() {
+    public String getToTime() {
         return toTime;
     }
 
-    public void setToTime(Timestamp toTime) {
+    public void setToTime(String toTime) {
         this.toTime = toTime;
     }
 
