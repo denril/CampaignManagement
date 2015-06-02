@@ -14,6 +14,7 @@ import sepe.dto.JsonResponse;
 import sepe.dto.UserDTO;
 import sepe.repository.CampaignRepository;
 import sepe.repository.UserRepository;
+import sepe.service.CampaignService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -274,6 +275,8 @@ public abstract class AbstractController {
     public @ResponseBody CampaignDTO post( @RequestBody final CampaignDTO campaign) {
 
         System.out.println("Campaign Created:"+campaign.getName());
+        CampaignService campaignService = new CampaignService();
+        campaignService.createCampaign(campaign);
         return campaign;
 
     }
