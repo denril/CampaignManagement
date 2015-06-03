@@ -8,7 +8,7 @@
 
 -- Dumped from database version 9.4.1
 -- Dumped by pg_dump version 9.4.1
--- Started on 2015-05-14 12:07:33
+-- Started on 2015-06-03 16:27:29
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -87,12 +87,12 @@ SET default_with_oids = false;
 CREATE TABLE campaign (
     id integer NOT NULL,
     name character varying(100) DEFAULT 'Some Campaign'::character varying,
-    "fromTime" timestamp with time zone NOT NULL,
-    "toTime" timestamp with time zone NOT NULL,
-    "experimentsUsedId" integer NOT NULL,
-    status integer DEFAULT 0 NOT NULL,
-    measuments json,
-    area polygon NOT NULL
+    from_time character varying(50),
+    to_time character varying(50),
+    experiments_used_id integer,
+    status integer DEFAULT 0,
+    measurements text,
+    area text
 );
 
 
@@ -106,12 +106,12 @@ ALTER TABLE campaign OWNER TO postgres;
 CREATE TABLE experiments (
     id integer NOT NULL,
     name character varying(256) NOT NULL,
-    "contextType" character varying(256) NOT NULL,
-    "sensorDependencies" text NOT NULL,
-    "fromTime" timestamp with time zone,
-    "toTime" timestamp with time zone,
+    context_type character varying(256) NOT NULL,
+    sensor_dependencies text NOT NULL,
+    from_time timestamp with time zone,
+    to_time timestamp with time zone,
     status character varying(256) NOT NULL,
-    "userID" integer,
+    "user_iD" integer,
     url character varying(256) NOT NULL,
     filename character varying(256) NOT NULL,
     description text NOT NULL,
@@ -153,10 +153,10 @@ ALTER SEQUENCE experiments_id_seq OWNED BY experiments.id;
 CREATE TABLE plugins (
     id integer NOT NULL,
     name character varying(256) NOT NULL,
-    "contextType" character varying(256) NOT NULL,
-    "runtimeFactoryClass" character varying(256) NOT NULL,
+    context_type character varying(256) NOT NULL,
+    runtime_factory_class character varying(256) NOT NULL,
     description character varying(256) NOT NULL,
-    "installUrl" character varying(256) NOT NULL,
+    install_url character varying(256) NOT NULL,
     filename character varying(256) NOT NULL
 );
 
@@ -194,8 +194,8 @@ ALTER SEQUENCE plugins_id_seq OWNED BY plugins.id;
 
 CREATE TABLE results (
     id integer NOT NULL,
-    "experimentID" integer NOT NULL,
-    "deviceID" integer NOT NULL,
+    "experiment_iD" integer NOT NULL,
+    "device_iD" integer NOT NULL,
     message text NOT NULL
 );
 
@@ -233,9 +233,9 @@ ALTER SEQUENCE results_id_seq OWNED BY results.id;
 
 CREATE TABLE smartphones (
     id integer NOT NULL,
-    "phoneID" integer NOT NULL,
-    "deviceType" character varying(256) DEFAULT 'Generic Android Device'::character varying NOT NULL,
-    "sensorRules" text
+    "phone_iD" integer NOT NULL,
+    device_type character varying(256) DEFAULT 'Generic Android Device'::character varying NOT NULL,
+    sensor_rules text
 );
 
 
@@ -324,6 +324,9 @@ ALTER TABLE ONLY smartphones ALTER COLUMN id SET DEFAULT nextval('smartphones_id
 -- Data for Name: campaign; Type: TABLE DATA; Schema: androidcampaigns; Owner: postgres
 --
 
+INSERT INTO campaign (id, name, from_time, to_time, experiments_used_id, status, measurements, area) VALUES (1, 'A test campaign', '2015-06-01', '2015-07-01', 1, 0, 'some measurements', 'some area');
+INSERT INTO campaign (id, name, from_time, to_time, experiments_used_id, status, measurements, area) VALUES (2, 'Another test campaign', '2000-01-01', '2000-12-12', 1, 0, 'none yet', 'to be defined');
+INSERT INTO campaign (id, name, from_time, to_time, experiments_used_id, status, measurements, area) VALUES (5, 'work', '2015-06-03', '2015-06-30', 1, 0, '', '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[21.734272241592407,38.24704468517486],[21.735302209854126,38.24605042462964],[21.733070611953735,38.24633690787641],[21.734272241592407,38.24704468517486]]]}}');
 
 
 --
@@ -332,7 +335,7 @@ ALTER TABLE ONLY smartphones ALTER COLUMN id SET DEFAULT nextval('smartphones_id
 -- Data for Name: experiments; Type: TABLE DATA; Schema: androidcampaigns; Owner: postgres
 --
 
-INSERT INTO experiments (id, name, "contextType", "sensorDependencies", "fromTime", "toTime", status, "userID", url, filename, description, "timestamp") VALUES (1, 'Experiment1', 'org.ambientdynamix.contextplugins.ExperimentPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin', '2000-12-01 00:00:00', '2000-12-01 00:00:00', 'some', 0, 'http://83.212.110.88:8080/dynamixRepository/org.ambientdynamix.contextplugins.ExperimentPlugin_0.9.54.jar', 'org.ambientdynamix.contextplugins.ExperimentPlugin_0.9.54.jar', 'just a sample expexperiment', 0);
+INSERT INTO experiments (id, name, context_type, sensor_dependencies, from_time, to_time, status, "user_iD", url, filename, description, "timestamp") VALUES (1, 'Experiment1', 'org.ambientdynamix.contextplugins.ExperimentPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin', '2000-12-01 00:00:00+02', '2000-12-01 00:00:00+02', 'some', 0, 'http://83.212.110.88:8080/dynamixRepository/org.ambientdynamix.contextplugins.ExperimentPlugin_0.9.54.jar', 'org.ambientdynamix.contextplugins.ExperimentPlugin_0.9.54.jar', 'just a sample expexperiment', 0);
 
 
 --
@@ -350,8 +353,8 @@ SELECT pg_catalog.setval('experiments_id_seq', 1, false);
 -- Data for Name: plugins; Type: TABLE DATA; Schema: androidcampaigns; Owner: postgres
 --
 
-INSERT INTO plugins (id, name, "contextType", "runtimeFactoryClass", description, "installUrl", filename) VALUES (1, 'plugs.xml', 'plugs.xml', 'plugs.xml', 'plugs.xml', 'http://83.212.110.88:8080/dynamixRepository/plugs.xml', 'plugs.xml');
-INSERT INTO plugins (id, name, "contextType", "runtimeFactoryClass", description, "installUrl", filename) VALUES (6, 'GpsPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin.PluginFactory', 'GpsPlugin', 'http://83.212.110.88:8080/dynamixRepository/org.ambientdynamix.contextplugins.GpsPlugin_0.9.54.jar', 'org.ambientdynamix.contextplugins.GpsPlugin_0.9.54.jar');
+INSERT INTO plugins (id, name, context_type, runtime_factory_class, description, install_url, filename) VALUES (1, 'plugs.xml', 'plugs.xml', 'plugs.xml', 'plugs.xml', 'http://83.212.110.88:8080/dynamixRepository/plugs.xml', 'plugs.xml');
+INSERT INTO plugins (id, name, context_type, runtime_factory_class, description, install_url, filename) VALUES (6, 'GpsPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin', 'org.ambientdynamix.contextplugins.GpsPlugin.PluginFactory', 'GpsPlugin', 'http://83.212.110.88:8080/dynamixRepository/org.ambientdynamix.contextplugins.GpsPlugin_0.9.54.jar', 'org.ambientdynamix.contextplugins.GpsPlugin_0.9.54.jar');
 
 
 --
@@ -386,7 +389,7 @@ SELECT pg_catalog.setval('results_id_seq', 1, false);
 -- Data for Name: smartphones; Type: TABLE DATA; Schema: androidcampaigns; Owner: postgres
 --
 
-INSERT INTO smartphones (id, "phoneID", "deviceType", "sensorRules") VALUES (1, 1, 'Generic Android Device', 'org.ambientdynamix.contextplugins.batteryLevelPlugin,org.ambientdynamix.contextplugins.batteryTemperaturePlugin,org.ambientdynamix.contextplugins.GpsPlugin,org.ambientdynamix.contextplugins.WifiScanPlugin');
+INSERT INTO smartphones (id, "phone_iD", device_type, sensor_rules) VALUES (1, 1, 'Generic Android Device', 'org.ambientdynamix.contextplugins.batteryLevelPlugin,org.ambientdynamix.contextplugins.batteryTemperaturePlugin,org.ambientdynamix.contextplugins.GpsPlugin,org.ambientdynamix.contextplugins.WifiScanPlugin');
 
 
 --
@@ -410,7 +413,7 @@ INSERT INTO "user" (id, is_admin, role, username, password, email, firstname, la
 
 
 --
--- TOC entry 1931 (class 2606 OID 16448)
+-- TOC entry 1931 (class 2606 OID 24577)
 -- Name: campaign_pmkey; Type: CONSTRAINT; Schema: androidcampaigns; Owner: postgres; Tablespace: 
 --
 
@@ -475,7 +478,7 @@ GRANT ALL ON SCHEMA androidcampaigns TO postgres;
 GRANT ALL ON SCHEMA androidcampaigns TO PUBLIC;
 
 
--- Completed on 2015-05-14 12:07:34
+-- Completed on 2015-06-03 16:27:29
 
 --
 -- PostgreSQL database dump complete
