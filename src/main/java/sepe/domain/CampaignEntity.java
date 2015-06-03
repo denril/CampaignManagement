@@ -34,7 +34,8 @@ public class CampaignEntity {
     }
 
     @Id
-    @Column(name = "id")
+    //@GeneratedValue
+    @Column(name = "id" , nullable = false, insertable = true, updatable = true, precision = 0)
     public int getId() {
         return id;
     }
@@ -44,7 +45,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name" , nullable = true, insertable = true, updatable = true, length = 50)
     public String getName() {
         return name;
     }
@@ -54,7 +55,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "fromTime")
+    @Column(name = "from_time" , nullable = true, insertable = true, updatable = true, length = 50)
     public String getFromTime() {
         return fromTime;
     }
@@ -64,7 +65,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "toTime")
+    @Column(name = "to_time" , nullable = true, insertable = true, updatable = true, length = 50)
     public String getToTime() {
         return toTime;
     }
@@ -74,7 +75,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "experimentsUsedId")
+    @Column(name = "experiments_used_id" , nullable = true, insertable = true, updatable = true, precision = 0)
     public int getExperimentsUsedId() {
         return experimentsUsedId;
     }
@@ -84,7 +85,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status" , nullable = true, insertable = true, updatable = true, precision = 0)
     public int getStatus() {
         return status;
     }
@@ -94,7 +95,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "measurements")
+    @Column(name = "measurements" , nullable = true, insertable = true, updatable = true, length = 1000)
     public String getMeasurements() {
         return measurements;
     }
@@ -104,7 +105,7 @@ public class CampaignEntity {
     }
 
     @Basic
-    @Column(name = "area")
+    @Column(name = "area" , nullable = true, insertable = true, updatable = true, length = 1000)
     public String getArea() {
         return area;
     }
