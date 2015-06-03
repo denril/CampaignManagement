@@ -271,11 +271,14 @@ public abstract class AbstractController {
     }
 
 */
+    @Autowired
+    public CampaignService campaignService;
+
     @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
-    public @ResponseBody CampaignDTO post( @RequestBody final CampaignDTO campaign) {
+    public @ResponseBody CampaignDTO save( @RequestBody final CampaignDTO campaign) { //or @ResponseBody CampaignDTO post
 
         System.out.println("Campaign Created:"+campaign.getName());
-        CampaignService campaignService = new CampaignService();
+        //CampaignService campaignService = new CampaignService();
         campaignService.createCampaign(campaign);
         return campaign;
 
