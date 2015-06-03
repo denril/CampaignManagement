@@ -7,12 +7,15 @@ package sepe.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.stereotype.Repository;
 import sepe.domain.CampaignEntity;
 
 import java.util.List;
 
 
 @RepositoryRestResource(collectionResourceRel = "campaigns", path = "/campaigns")
+
+@Repository
 public interface CampaignRepository extends CrudRepository<CampaignEntity, Integer> {
 
 
