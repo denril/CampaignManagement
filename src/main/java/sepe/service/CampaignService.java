@@ -33,8 +33,8 @@ public final class CampaignService {
 
     @Autowired
     CampaignRepository campaignRepository;
-   // @Autowired
-   // CampaignToCampaignDTO campaignDTOConverter;
+    // @Autowired
+    // CampaignToCampaignDTO campaignDTOConverter;
 
 
     public void createCampaign(
@@ -44,8 +44,13 @@ public final class CampaignService {
         CampaignDTOToCampaign campaignConverter = new CampaignDTOToCampaign();
         CampaignEntity myCampaign = campaignConverter.convert(campaign);
 
+        // campaignRepository.save(myCampaign); //problematic save
+        try {
+            campaignRepository.save(myCampaign);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-       // campaignRepository.save(myCampaign); //problematic save
     }
 
 
