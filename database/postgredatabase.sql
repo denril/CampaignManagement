@@ -85,7 +85,7 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE campaign (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name character varying(100) DEFAULT 'Some Campaign'::character varying,
     from_time character varying(50),
     to_time character varying(50),
