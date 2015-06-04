@@ -188,8 +188,9 @@
                     layer.bindPopup('This is your campaign area!');
                     drawnItems.addLayer(layer);
                     //convert drawn shapes to geojson then stringify to save to database
+                    var json = drawnItems.toGeoJSON();
                     var shape = layer.toGeoJSON();
-                    shape_for_db = JSON.stringify(shape);
+                    shape_for_db = JSON.stringify(json);
 
                     latLngs = layer.getLatLngs(); // Returns an array of the points in the path.
 
