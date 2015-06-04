@@ -23,7 +23,7 @@ public final class CampaignDTOToCampaign implements Converter<CampaignDTO, Campa
         CampaignEntity campaign = null;
         if (campaignDTO != null) {
             campaign = new CampaignEntity(
-                    5, //must implement getId() now just assigns 5 // campaignDTO.getId(),
+                  //  not needed since id column is auto generated // campaignDTO.getId(),
                     campaignDTO.getName(),
                     campaignDTO.getFromTime(),
                     campaignDTO.getToTime(),
