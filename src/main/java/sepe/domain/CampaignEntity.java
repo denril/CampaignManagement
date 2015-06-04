@@ -1,6 +1,7 @@
 package sepe.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "campaign", schema = "androidcampaigns", catalog = "")
-public class CampaignEntity {
+public class CampaignEntity implements Serializable {
     private int id;
     private String name;
     private String fromTime;
@@ -29,12 +30,22 @@ public class CampaignEntity {
         this.area = area;
     }
 
+    public CampaignEntity(String name, String fromTime, String toTime, int experimentsUsedId, int status, String measurements, String area) {
+        this.name = name;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+        this.experimentsUsedId = experimentsUsedId;
+        this.status = status;
+        this.measurements = measurements;
+        this.area = area;
+    }
+
     public CampaignEntity(){
 
     }
 
     @Id
-    //@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id" , nullable = false, insertable = true, updatable = true, precision = 0)
     public int getId() {
         return id;
