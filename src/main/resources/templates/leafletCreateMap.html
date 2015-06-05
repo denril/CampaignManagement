@@ -171,14 +171,15 @@
                     edit: {
                         featureGroup: drawnItems,
                         //disables the edit-remove options if set false
-                        edit: false,
+                        edit: true,
                         remove: true
                     }
                 });
                 L.drawLocal.draw.toolbar.buttons.polygon = 'Draw the campaign area';
                 map.addControl(drawControl);
 
-                //actually displays drawn item
+                //actually displays created items and saves them to a variable
+                //can also add events like 'draw:edited' and 'draw:deleted'
                 map.on('draw:created', function (e) {
                     var type = e.layerType;
                     var layer = e.layer;
@@ -188,13 +189,31 @@
                     layer.bindPopup('This is your campaign area!');
                     drawnItems.addLayer(layer);
                     //convert drawn shapes to geojson then stringify to save to database
-                    var json = drawnItems.toGeoJSON();
-                    var shape = layer.toGeoJSON();
-                    shape_for_db = JSON.stringify(json);
+                    //var shape = layer.toGeoJSON();
+                    var shape = drawnItems.toGeoJSON();
+                    shape_for_db = JSON.stringify(shape);
 
                     latLngs = layer.getLatLngs(); // Returns an array of the points in the path.
 
                     // }
+                });
+
+                //event so when area is edited the new edits are saved
+                map.on('draw:edited', function (e) {
+                   // var layers = e.layers;
+                   // layers.eachLayer(function (layer) { //not needed since drawnItems has all layers
+                        var shape = drawnItems.toGeoJSON();
+                        shape_for_db = JSON.stringify(shape);
+                   // });
+                });
+
+                //event so when a subarea is deleted,the area after deletion is saved
+                map.on('draw:deleted', function (e) {
+                   // var layerss = e.layers;
+                   // layerss.eachLayer(function (layer) { //not needed since drawnItems has all layers
+                        var shape = drawnItems.toGeoJSON();
+                        shape_for_db = JSON.stringify(shape);
+                 //   });
                 });
 
                 /*]]>*/
