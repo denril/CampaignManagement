@@ -280,7 +280,6 @@ public abstract class AbstractController {
 
         System.out.println("Campaign Created:"+campaign.getName());
         //CampaignService campaignService = new CampaignService();
-        CurrentUserDetailsService.getCurrentUserEntity().geUserEntityId();
         campaignService.createCampaign(campaign);
         return campaign;
 
