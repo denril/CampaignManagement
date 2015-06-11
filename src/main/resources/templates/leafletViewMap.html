@@ -44,8 +44,8 @@
     <div class="container main-container">
         <form th:object="${user}" id="viewCampaignForm" name="viewCampaignForm" action="/" method="post" accept-charset="utf-8">
             <h2>View Campaign (Map based on Leaflet) </h2>
-            <p>This test campaign has a marker in Patras and is loaded from a .geojson file </p>
-            <div id="map" style="height: 650px; width: 1100px;"></div>
+            <p>This test campaign has a marker in Patras and is loaded from coordinates </p>
+            <div id="map" style="height: 700px; width: 1200px;"></div>
 
 
             <script th:inline="javascript">
@@ -94,7 +94,8 @@
 
                 /*]]>*/
             </script><br> </br>
-            <input type="submit" id="deleteCampaignBtn" name="deleteCampaignBtn" value="Delete this campaign"> </input>
+          <!-- A user is not allowed to delete a campaign at the moment -->
+          <!--  <input type="submit" id="deleteCampaignBtn" name="deleteCampaignBtn" value="Delete this campaign"> </input> -->
         </form>
 
 
