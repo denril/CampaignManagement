@@ -1,5 +1,7 @@
 package sepe.domain;
 
+import sepe.service.CurrentUserDetailsService;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -18,6 +20,7 @@ public class CampaignEntity implements Serializable {
     private int status;
     private String measurements;
     private String area;
+    private String registeredUsers;
 
     public CampaignEntity(int id, String name, String fromTime, String toTime, int experimentsUsedId, int status, String measurements, String area) {
         this.id = id;
@@ -38,6 +41,17 @@ public class CampaignEntity implements Serializable {
         this.status = status;
         this.measurements = measurements;
         this.area = area;
+    }
+
+    public CampaignEntity(String name, String fromTime, String toTime, int experimentsUsedId, int status, String measurements, String area, String registeredUsers) {
+        this.name = name;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+        this.experimentsUsedId = experimentsUsedId;
+        this.status = status;
+        this.measurements = measurements;
+        this.area = area;
+        this.registeredUsers = registeredUsers;
     }
 
     public CampaignEntity(){
@@ -123,6 +137,16 @@ public class CampaignEntity implements Serializable {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    @Basic
+    @Column(name = "registered_users" , nullable = true, insertable = true, updatable = true, length = 1000)
+    public String getRegisteredUsers() {
+        return registeredUsers;
+    }
+
+    public void setRegisteredUsers(String registeredUsers) {
+        this.registeredUsers = registeredUsers;
     }
 
     @Override
