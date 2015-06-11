@@ -15,6 +15,7 @@ import sepe.dto.UserDTO;
 import sepe.repository.CampaignRepository;
 import sepe.repository.UserRepository;
 import sepe.service.CampaignService;
+import sepe.service.CurrentUserDetailsService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -279,6 +280,7 @@ public abstract class AbstractController {
 
         System.out.println("Campaign Created:"+campaign.getName());
         //CampaignService campaignService = new CampaignService();
+        CurrentUserDetailsService.getCurrentUserEntity().geUserEntityId();
         campaignService.createCampaign(campaign);
         return campaign;
 
