@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 import sepe.domain.CampaignEntity;
 import sepe.dto.CampaignDTO;
+import sepe.service.CurrentUserDetailsService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,7 +31,8 @@ public final class CampaignDTOToCampaign implements Converter<CampaignDTO, Campa
                     campaignDTO.getExperimentsUsedId(),
                     campaignDTO.getStatus(),
                     campaignDTO.getMeasurements(),
-                    campaignDTO.getArea()
+                    campaignDTO.getArea(),
+                    CurrentUserDetailsService.getCurrentUserEntity().getUsername()
             );
         }
         return campaign;
