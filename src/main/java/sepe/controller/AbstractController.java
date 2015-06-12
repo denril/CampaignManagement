@@ -15,6 +15,7 @@ import sepe.dto.UserDTO;
 import sepe.repository.CampaignRepository;
 import sepe.repository.UserRepository;
 import sepe.service.CampaignService;
+import sepe.service.CurrentUserCampaignsService;
 import sepe.service.CurrentUserDetailsService;
 
 import javax.annotation.Nonnull;
@@ -264,22 +265,20 @@ public abstract class AbstractController {
         return new JsonResponse("OK", "");
     }
 */
- /*   @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
-        public @ResponseBody String createCampaignSuccess(HttpServletRequest request) {
-        String message = request.getParameter("message");
-        System.out.println("***Campaign Creation Successful***");
-        return "Campaign Creation Successful" + " " + message;
-    }
 
-*/
     @Autowired
     public CampaignService campaignService;
+
+    @Autowired
+    public CurrentUserCampaignsService currentUserCampaignsService;
 
     @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
     public @ResponseBody CampaignDTO save( @RequestBody final CampaignDTO campaign) { //or @ResponseBody CampaignDTO post
 
         System.out.println("Campaign Created:"+campaign.getName());
         //CampaignService campaignService = new CampaignService();
+        CampaignEntity campaignEntity = currentUserCampaignsService.getCurrentUserCampaignArea();
+        System.out.println("This user's campaign area:" + campaignEntity.getArea());
         campaignService.createCampaign(campaign);
         return campaign;
 
