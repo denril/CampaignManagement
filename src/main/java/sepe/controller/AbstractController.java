@@ -273,16 +273,42 @@ public abstract class AbstractController {
     public CurrentUserCampaignsService currentUserCampaignsService;
 
     @RequestMapping(value = {"/createCampaignSuccess"}, method = RequestMethod.POST)
-    public @ResponseBody CampaignDTO save( @RequestBody final CampaignDTO campaign) { //or @ResponseBody CampaignDTO post
+    public
+    @ResponseBody
+    CampaignDTO save(@RequestBody final CampaignDTO campaign) { //or @ResponseBody CampaignDTO post
 
-        System.out.println("Campaign Created:"+campaign.getName());
+        System.out.println("Campaign Created:" + campaign.getName());
         //CampaignService campaignService = new CampaignService();
-        CampaignEntity campaignEntity = currentUserCampaignsService.getCurrentUserCampaignArea();
-        System.out.println("This user's campaign area:" + campaignEntity.getArea());
+        //CampaignEntity campaignEntity = currentUserCampaignsService.getCurrentUserCampaignArea();
+        //System.out.println("This user's campaign area:" + campaignEntity.getArea());
         campaignService.createCampaign(campaign);
         return campaign;
 
     }
 
+    /*
+    @RequestMapping(value = {"/viewCampaignSuccess"}, method = RequestMethod.POST)
+    public @ResponseBody String post( @RequestBody final String campaigns) { //or @ResponseBody CampaignDTO post
 
+        CampaignEntity campaignEntity = currentUserCampaignsService.getCurrentUserCampaignArea();
+        System.out.println("This user's campaign area:" + campaignEntity.getArea());
+
+        return campaignEntity.getArea();
+
+    }
+    */
+
+    @RequestMapping(value = {"/viewCampaignSuccess"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    CampaignEntity post(@RequestBody final CampaignDTO campaigns) { //or @ResponseBody CampaignDTO post
+
+        //System.out.println("Campaign Created:"+campaign.getName());
+        //CampaignService campaignService = new CampaignService();
+        CampaignEntity campaignEntity = currentUserCampaignsService.getCurrentUserCampaignArea();
+        System.out.println("This user's campaign area:" + campaignEntity.getArea());
+        //campaignService.createCampaign(campaign);
+        return campaignEntity;
+
+    }
 }
